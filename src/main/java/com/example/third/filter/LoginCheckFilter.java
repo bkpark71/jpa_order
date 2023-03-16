@@ -15,7 +15,7 @@ import java.util.UUID;
 public class LoginCheckFilter implements Filter {
     //특정사이트에는 적용을 하지 않을것이다. 화이트 리스트(로그인 , 회원가입, 로그아웃)
     //화이트 리스트를 제외한 나머지는 모두 적용
-    private static final String[] whiteLists = {"/", "/login", "/members/join", "/logout" , "/css/*"};
+    private static final String[] whiteLists = {"/", "/login", "/members/join", "/logout" , "/css/*" , "/order/*"};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -41,6 +41,5 @@ public class LoginCheckFilter implements Filter {
             log.info("로그인 인증 필터 종료:  [{}] , [{}] ", requestURI, uuid);
         }
     }
-
 }
 

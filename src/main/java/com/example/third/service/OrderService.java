@@ -1,19 +1,17 @@
 package com.example.third.service;
 
 import com.example.third.domain.Member;
-import com.example.third.domain.Order;
-import com.example.third.domain.OrderStatus;
+import com.example.third.domain.Orders;
 import com.example.third.repository.MemberRepository;
 import com.example.third.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -24,19 +22,21 @@ public class OrderService {
     @Transactional
     public Long order(Long member_id){
         Member member = memberRepository.findById(member_id).get();
+        log.info("orderservice ==> member : {} ", member);
         // order + orderItem + item
-        Order order = Order.createOrder(member);
+        Orders order = Orders.createOrder(member);
+        log.info("orderService ==> order : {} ",  order);
         orderRepository.save(order);
         return order.getId();
     }
 
     @Transactional
     public void cancelOrder(Long orderId){
-        Order order = orderRepository.findByOne(orderId);
+        Orders order = orderRepository.findByOne(orderId);
         // jpa 가 dirty checking을 해서 자동으로 db에 update를 해줌.
         order.cancel();
     }
-    public List<Order> findOrders(String username){
+    public List<Orders> findOrders(String username){
         return orderRepository.findAll(username);
     }
 }

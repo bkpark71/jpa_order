@@ -1,8 +1,6 @@
 package com.example.third.repository;
 
-import com.example.third.domain.Order;
-import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
+import com.example.third.domain.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,17 +17,17 @@ public class OrderRepository {
         this.em = em;
     }
 
-    public void save(Order order){
+    public void save(Orders order){
         em.persist(order);
     }
     
-    public Order findByOne(Long id){
-        return Optional.ofNullable(em.find(Order.class, id)).get();
+    public Orders findByOne(Long id){
+        return Optional.ofNullable(em.find(Orders.class, id)).get();
     }
 
-    public List<Order> findAll(String username){
-        return em.createQuery("select o from Order o join o.member m where m.username = :username", Order.class)
-                .setParameter("username", username)
+    public List<Orders> findAll(String name){
+        return em.createQuery("select o from Orders o join o.member m where m.name = :name", Orders.class)
+                .setParameter("name", name)
                 .setMaxResults(100)
                 .getResultList();
     }

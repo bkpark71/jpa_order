@@ -19,7 +19,7 @@ public class WebConfig {
         return filterFilterRegistrationBean;
     }
 
-    @Bean
+    //@Bean
     public FilterRegistrationBean LoginCheckFilter(){ // 필터들간의 순서 등록, 적용 패턴
         FilterRegistrationBean<Filter> filterFilterRegistrationBean = new FilterRegistrationBean<>();
         filterFilterRegistrationBean.setFilter(new LoginCheckFilter());

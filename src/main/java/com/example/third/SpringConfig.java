@@ -3,6 +3,7 @@ package com.example.third;
 import com.example.third.repository.*;
 import com.example.third.service.ItemService;
 import com.example.third.service.MemberService;
+import com.example.third.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
+import java.beans.BeanProperty;
 
 @Configuration
 @RequiredArgsConstructor
@@ -38,5 +40,4 @@ public class SpringConfig {
     public MemberRepository memberRepository(){
         return new JpaMemberRepository(em);
     }
-
 }

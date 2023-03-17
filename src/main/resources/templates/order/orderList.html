@@ -22,10 +22,19 @@
       <td th:text="${order.status}"></td>
       <td>
         <a th:if="${order.status.name() == 'ORDER'}" href="#"
-           th:href="'javascript:cancel('+${order.id}+')'">CANCEL</a>
+           th:href="'javascript:cancel(' +  ${order.id} +  ')'">CANCEL</a>
       </td>
     </tr>
   </tbody>
 </table>
 </body>
+<script>
+  function cancel(id) { // 동적으로 form element를 만들어서 post method로 값을 넘기는 것처럼 처리
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/order/cancel/"+ id);
+    document.body.appendChild(form);
+    form.submit();
+  }
+</script>
 </html>

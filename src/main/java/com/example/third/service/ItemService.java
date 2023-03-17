@@ -1,7 +1,7 @@
 package com.example.third.service;
 
 import com.example.third.domain.Item;
-import com.example.third.domain.ItemDTO;
+import com.example.third.domaindto.ItemDTO;
 import com.example.third.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;

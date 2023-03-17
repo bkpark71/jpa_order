@@ -1,7 +1,7 @@
 package com.example.third.controller;
 
 import com.example.third.domain.Item;
-import com.example.third.domain.ItemDTO;
+import com.example.third.domaindto.ItemDTO;
 import com.example.third.service.ItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

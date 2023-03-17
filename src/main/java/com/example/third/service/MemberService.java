@@ -1,10 +1,12 @@
 package com.example.third.service;
 
 import com.example.third.domain.Member;
+import com.example.third.domaindto.UpdateMemberRequestDTO;
 import com.example.third.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly=true)  // readonly true 로 놓으면 업데이트가 안되기 때문에 update가 필요한 곳에서는 별도로
@@ -35,5 +37,20 @@ public class MemberService {   // @Transactional 로 줘야 함
 
     public Optional<Member> findMemberById(Long id){
         return memberRepository.findById(id);
+    }
+
+    public List<Member> findMembers(){
+        return memberRepository.findAll();
+    }
+
+    @Transactional
+    public void updateMember(UpdateMemberRequestDTO member) {
+        memberRepository.updateV2(member);
+    }
+
+    @Transactional
+    public Long deleteMember(Long id){
+        memberRepository.remove(id);
+        return id;
     }
 }

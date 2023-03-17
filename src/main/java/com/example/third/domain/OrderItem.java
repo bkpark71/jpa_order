@@ -35,6 +35,7 @@ public class OrderItem {
     }
 
     public void cancel(){
-       this.item.addStock(orderQuantity); // ???? 취소수량만큼 재고수량 원복
+
+        this.item.addStock(orderQuantity); // ???? 취소수량만큼 재고수량 원복
     }
 }

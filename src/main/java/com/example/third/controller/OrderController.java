@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -63,5 +60,16 @@ public class OrderController {
         }
         model.addAttribute("orders", orders);
         return "order/orderList";
+    }
+
+    @PostMapping("/cancel/{orderId}")
+    public String cancelOrder(HttpServletRequest request,
+                              @PathVariable Long orderId){
+        //        HttpSession session = request.getSession(false);
+        //        MemberSession memberSession = (MemberSession) session.getAttribute(SessionConst.NAME);
+        TestMemberSession memberSession = new TestMemberSession();
+        // 로그인 한 사람과 동일한 오더인 경우에만 삭제하도록 조건문 추가하기
+        orderService.cancelOrder(orderId);
+        return "redirect:/order/orders";
     }
 }

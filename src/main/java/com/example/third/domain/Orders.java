@@ -51,6 +51,9 @@ public class Orders {
     public void cancel(){
         status = OrderStatus.CANCEL;
         // orderitem 추가 예정 . 아이템 별 하나씩 cancel
+        for(OrderItem orderItem : orderItems){
+            orderItem.cancel(); // 각 아이템별로 주문 수량이 재고에 반영된다.
+        }
     }
 
     @Override

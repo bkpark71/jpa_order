@@ -1,6 +1,7 @@
 package com.example.third.repository;
 
 import com.example.third.domain.Member;
+import com.example.third.domaindto.UpdateMemberRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -42,13 +43,21 @@ public class JpaMemberRepository implements MemberRepository {
                 .getResultList();
         return members;
     }
+
     @Override
-    public void update(Long id, Member member) { // item 은 값이 수정된 필드 값을 가지고 있음
-//       Member findMember = findById(id).get(); // findItem은 수정되기 전의 필드 값을 가지고 있음
-       //System.out.println("findItem = " + findItem);
-//        findMember.sete(item.getItemName());
-//        findMember.setQuantity(item.getQuantity());
-//        findMemberm.setPrice(item.getPrice());
-     //  map.put(member.getId(), findMember);
+    public void update(Long id, Member member) {
+
+    }
+
+    public void updateV2(UpdateMemberRequestDTO member) {
+       Member findMember = findByLoginId(member.getLoginId()).get(); // findItem은 수정되기 전의 필드 값을 가지고 있음
+       findMember.setPassword(member.getPassword());
+    }
+
+    @Override
+    public Long remove(Long id) {
+        Member member = findById(id).get();
+        em.remove(member);
+        return id;
     }
 }

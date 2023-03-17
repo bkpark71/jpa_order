@@ -17,12 +17,7 @@ import java.beans.BeanProperty;
 @RequiredArgsConstructor
 public class SpringConfig {
     private final EntityManager em;
-    //private final DataSource dataSource;
-//    @Autowired
-//    public SpringConfig(EntityManager em) {//DataSource dataSource,
-//        //this.dataSource = dataSource;
-//        this.em = em;
-//    }
+
     @Bean
     public ItemService itemService(){
         return new ItemService(itemRepository());
@@ -39,5 +34,19 @@ public class SpringConfig {
     @Bean
     public MemberRepository memberRepository(){
         return new JpaMemberRepository(em);
+    }
+
+    @Bean
+    public OrderService orderService(){
+        return new OrderService(
+                orderRepository(),
+                memberRepository(),
+                itemRepository()
+                );
+    }
+
+    @Bean
+    public OrderRepository orderRepository(){
+        return new OrderRepository(em);
     }
 }

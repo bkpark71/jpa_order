@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity(name="order_item")
+@Entity
 @Getter
 @Setter
 public class OrderItem {
@@ -23,4 +23,18 @@ public class OrderItem {
     private Orders order;
     private int orderPrice;
     private int orderQuantity;
+
+    public static OrderItem createOrderItem(Item item, int orderPrice, int orderQuantity){
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setOrderQuantity(orderQuantity);
+
+        item.removeStock(orderQuantity); // 주문 수량만큼 재고를 감소시킨다.
+        return orderItem;
+    }
+
+    public void cancel(){
+       this.item.addStock(orderQuantity); // ???? 취소수량만큼 재고수량 원복
+    }
 }

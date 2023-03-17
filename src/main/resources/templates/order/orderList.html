@@ -20,6 +20,10 @@
       <td th:text="${order.member.name}"></a></td>
       <td th:text="${order.orderDate}"></td>
       <td th:text="${order.status}"></td>
+      <td>
+        <a th:if="${order.status.name() == 'ORDER'}" href="#"
+           th:href="'javascript:cancel('+${order.id}+')'">CANCEL</a>
+      </td>
     </tr>
   </tbody>
 </table>

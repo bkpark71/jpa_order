@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,13 +26,24 @@ public class Orders {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    //order를 persist 하게 되면 orderItem도 강제로 persist 진행
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    public void addOrderItem(OrderItem orderItem){
+        orderItem.setOrder(this);  // this = order
+        orderItems.add(orderItem);
+    }
+
     /// orderItem 추가예정 , delivery , 결제
-    public static Orders createOrder(Member member){
+    public static Orders createOrder(Member member, OrderItem... orderItems){
         Orders order = new Orders();
         order.setMember(member);
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(OrderStatus.ORDER);
-        /// orderItem 추가예정 , delivery , 결제
+        for(OrderItem orderItem : orderItems){
+            order.addOrderItem(orderItem);
+        }
         return order;
     }
 

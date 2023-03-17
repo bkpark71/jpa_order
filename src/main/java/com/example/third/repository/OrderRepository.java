@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class OrderRepository {
     private final EntityManager em;
 

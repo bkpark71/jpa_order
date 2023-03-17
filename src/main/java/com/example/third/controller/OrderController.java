@@ -1,8 +1,9 @@
 package com.example.third.controller;
 
-import com.example.third.controller.session.MemberSession;
-import com.example.third.controller.session.SessionConst;
+import com.example.third.controller.session.TestMemberSession;
+import com.example.third.domain.Item;
 import com.example.third.domain.Orders;
+import com.example.third.service.ItemService;
 import com.example.third.service.MemberService;
 import com.example.third.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Slf4j
@@ -25,26 +25,36 @@ import java.util.List;
 public class OrderController {
     private final OrderService orderService;
     private final MemberService memberService;
+    private final ItemService itemService;
 
     @GetMapping("/add")
     public String order(HttpServletRequest request, Model model){
-        HttpSession session = request.getSession(false);
-        MemberSession memberSession = (MemberSession)session.getAttribute(SessionConst.NAME);
+//        HttpSession session = request.getSession(false);
+//        MemberSession memberSession = (MemberSession)session.getAttribute(SessionConst.NAME);
+        TestMemberSession memberSession = new TestMemberSession();
+
+        List<Item> items = itemService.allItems();
+
+        model.addAttribute("items", items);
         model.addAttribute("member", memberSession);
+
         return "order/orderForm";
     }
 
     @PostMapping("/add")
-    public String order(@RequestParam Long id){
-        System.out.println("id :" +id);
-        orderService.order(id);
+    public String order(@RequestParam Long id,
+                        @RequestParam Long itemId,
+                        @RequestParam int orderQuantity){
+
+        orderService.order(id, itemId, orderQuantity);
         return "redirect:/order/orders";
     }
 
     @GetMapping("/orders")
     public String orderList(HttpServletRequest request, Model model){
-        HttpSession session = request.getSession(false);
-        MemberSession memberSession = (MemberSession) session.getAttribute(SessionConst.NAME);
+//        HttpSession session = request.getSession(false);
+//        MemberSession memberSession = (MemberSession) session.getAttribute(SessionConst.NAME);
+        TestMemberSession memberSession = new TestMemberSession();
         log.info("order controller ==> membersession : {} ", memberSession);
         List<Orders> orders = orderService.findOrders(memberSession.getName());
 

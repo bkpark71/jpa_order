@@ -1,7 +1,10 @@
 package com.example.third.service;
 
+import com.example.third.domain.Item;
 import com.example.third.domain.Member;
+import com.example.third.domain.OrderItem;
 import com.example.third.domain.Orders;
+import com.example.third.repository.ItemRepository;
 import com.example.third.repository.MemberRepository;
 import com.example.third.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,19 +15,25 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Slf4j
-@Service
+//@Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
+    private final ItemRepository itemRepository;
 
     @Transactional
-    public Long order(Long member_id){
+    public Long order(Long member_id, Long id, int orderQuantity){
         Member member = memberRepository.findById(member_id).get();
-        log.info("orderservice ==> member : {} ", member);
-        // order + orderItem + item
-        Orders order = Orders.createOrder(member);
+        Item item = itemRepository.findById(id).get();
+        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), orderQuantity);
+
+        // 여러건의 주문을 입력하려면
+        // while 로 orderItems을 list로 여러건 생성한 후
+        // 그 주문아이템들을 배열로 넘겨서 하나로 묶어서 order를 생성해야 함.
+
+        Orders order = Orders.createOrder(member, orderItem);
         log.info("orderService ==> order : {} ",  order);
         orderRepository.save(order);
         return order.getId();
